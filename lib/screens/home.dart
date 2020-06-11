@@ -29,15 +29,19 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Header(
-            data: data,
-          ),
-          FeaturedDesigns(),
-          Categories(),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          children: <Widget>[
+            Header(
+              data: data,
+            ),
+            FeaturedDesigns(),
+            Categories(
+              data: data,
+            ),
+          ],
+        ),
       ),
     );
   }
