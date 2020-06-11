@@ -1,3 +1,4 @@
+import 'package:fashionapp/components/featured.dart';
 import 'package:fashionapp/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
           Header(
             data: data,
           ),
+          FeaturedDesigns(),
         ],
       ),
     );
