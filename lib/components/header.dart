@@ -117,7 +117,7 @@ class _ItemCardState extends State<ItemCard> {
                               color: const Color(0xff833895),
                             ),
                             Text(
-                              '32',
+                              widget.itemData['views']['en-US'].toString(),
                               style: TextStyle(
                                 color: const Color(0xff833895),
                                 fontWeight: FontWeight.bold,
