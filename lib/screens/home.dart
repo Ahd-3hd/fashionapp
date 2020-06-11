@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
             Header(
               data: data,
             ),
-            FeaturedDesigns(),
+            FeaturedDesigns(data: [data[0], data[1], data[2]]),
             Categories(
               data: data,
             ),

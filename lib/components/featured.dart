@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FeaturedDesigns extends StatelessWidget {
+  final List data;
+
+  const FeaturedDesigns({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,17 +22,9 @@ class FeaturedDesigns extends StatelessWidget {
             ),
           ),
           Row(
-            children: <Widget>[
-              Expanded(
-                child: FeaturedCard(),
-              ),
-              Expanded(
-                child: FeaturedCard(),
-              ),
-              Expanded(
-                child: FeaturedCard(),
-              ),
-            ],
+            children: data
+                .map((e) => Expanded(child: FeaturedCard(data: e)))
+                .toList(),
           )
         ],
       ),
@@ -37,7 +32,21 @@ class FeaturedDesigns extends StatelessWidget {
   }
 }
 
+// <Widget>[
+//               Expanded(
+//                 child: FeaturedCard(),
+//               ),
+//               Expanded(
+//                 child: FeaturedCard(),
+//               ),
+//               Expanded(
+//                 child: FeaturedCard(),
+//               ),
+//             ],
 class FeaturedCard extends StatelessWidget {
+  final Map data;
+
+  const FeaturedCard({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -56,7 +65,7 @@ class FeaturedCard extends StatelessWidget {
               ),
             ],
             image: DecorationImage(
-              image: NetworkImage('https://picsum.photos/600/600'),
+              image: NetworkImage(data['imageurl']['en-US']),
               fit: BoxFit.cover,
             ),
           ),
@@ -72,7 +81,7 @@ class FeaturedCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: Text(
-                  'Title',
+                  data['title']['en-US'],
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.grey[700],
@@ -86,7 +95,7 @@ class FeaturedCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: Text(
-                  'Type',
+                  data['type']['en-US'],
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.grey[700],
@@ -100,7 +109,7 @@ class FeaturedCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: Text(
-                  '\$ 45.54',
+                  '\$${data['price']['en-US']}',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.grey[700],
