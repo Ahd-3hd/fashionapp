@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   Future getData() async {
     Response response =
         await get('https://shrouded-savannah-97463.herokuapp.com/products');
-    print(json.decode(response.body));
+
     setState(() {
       data = json.decode(response.body);
     });

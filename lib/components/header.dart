@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fashionapp/screens/single.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Header extends StatefulWidget {
   final List data;
@@ -35,6 +36,40 @@ class ItemCard extends StatefulWidget {
 
 class _ItemCardState extends State<ItemCard> {
   bool isLiked = false;
+  bool isLoading = false;
+
+  Future likePost(id) async {
+    setState(() {
+      isLoading = true;
+    });
+    Response response =
+        await put('https://shrouded-savannah-97463.herokuapp.com/like/$id');
+    response.body == 'done'
+        ? setState(() {
+            isLoading = false;
+          })
+        : null;
+    setState(() {
+      isLiked = true;
+    });
+  }
+
+  Future unlikePost(id) async {
+    setState(() {
+      isLoading = true;
+    });
+    Response response =
+        await put('https://shrouded-savannah-97463.herokuapp.com/unlike/$id');
+    response.body == 'done'
+        ? setState(() {
+            isLoading = false;
+          })
+        : null;
+    setState(() {
+      isLiked = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -120,18 +155,31 @@ class _ItemCardState extends State<ItemCard> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color.fromRGBO(255, 255, 255, 1),
                   ),
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isLiked = !isLiked;
-                      });
-                    },
-                    icon: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_border,
-                      size: 20,
-                      color: const Color(0xff833895),
-                    ),
-                  ),
+                  child: isLoading
+                      ? Container(
+                          width: 25,
+                          height: 25,
+                          padding: EdgeInsets.all(5),
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.purple[900],
+                            ),
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () async {
+                            isLiked
+                                ? await unlikePost(
+                                    widget.itemData['id']['en-US'])
+                                : await likePost(
+                                    widget.itemData['id']['en-US']);
+                          },
+                          icon: Icon(
+                            isLiked ? Icons.favorite : Icons.favorite_border,
+                            size: 20,
+                            color: const Color(0xff833895),
+                          ),
+                        ),
                 ),
               ],
             ),
