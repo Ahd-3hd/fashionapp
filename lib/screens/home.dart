@@ -34,7 +34,11 @@ class _HomeState extends State<Home> {
         body: ListView(
           children: <Widget>[
             Header(
-              data: data,
+              data: [
+                data[data.length - 3],
+                data[data.length - 2],
+                data[data.length - 1]
+              ],
             ),
             FeaturedDesigns(data: [data[0], data[1], data[2]]),
             Categories(
