@@ -56,6 +56,7 @@ class FeaturedCategory extends StatelessWidget {
                   : data
                       .where((item) => item['type']['en-US'] == title)
                       .toList(),
+              title: title,
             ),
           ),
         );

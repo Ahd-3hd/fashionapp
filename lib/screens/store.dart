@@ -3,8 +3,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Store extends StatefulWidget {
   final List data;
-
-  const Store({Key key, this.data}) : super(key: key);
+  final String title;
+  const Store({Key key, this.data, this.title}) : super(key: key);
   @override
   _StoreState createState() => _StoreState();
 }
@@ -37,9 +37,9 @@ class _StoreState extends State<Store> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(10),
                           child: Text(
-                            'Store',
+                            widget.title.toUpperCase(),
                             style: TextStyle(
                               color: Color(0xff833895),
                               fontSize: 25,
