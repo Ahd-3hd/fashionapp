@@ -1,3 +1,4 @@
+import 'package:fashionapp/components/categories.dart';
 import 'package:fashionapp/components/featured.dart';
 import 'package:fashionapp/components/header.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
             data: data,
           ),
           FeaturedDesigns(),
+          Categories(),
         ],
       ),
     );
