@@ -23,12 +23,13 @@ class Categories extends StatelessWidget {
             ),
           ),
         ),
+        FeaturedCategory(imageurl: 'assets/all.jpg', title: 'ALL', data: data),
         FeaturedCategory(
-            imageurl: 'assets/img2.jpg', title: 'DRESS', data: data),
+            imageurl: 'assets/img2.jpg', title: 'dress', data: data),
         FeaturedCategory(
-            imageurl: 'assets/img5.jpg', title: 'COAT', data: data),
+            imageurl: 'assets/img5.jpg', title: 'coat', data: data),
         FeaturedCategory(
-            imageurl: 'assets/abaya9.jpg', title: 'ABAYA', data: data),
+            imageurl: 'assets/abaya9.jpg', title: 'abaya', data: data),
       ],
     );
   }
@@ -49,9 +50,14 @@ class FeaturedCategory extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => Store(
-                    data: data,
-                  )),
+            builder: (context) => Store(
+              data: title == 'ALL'
+                  ? data
+                  : data
+                      .where((item) => item['type']['en-US'] == title)
+                      .toList(),
+            ),
+          ),
         );
       },
       child: Column(
@@ -96,7 +102,7 @@ class FeaturedCategory extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    title,
+                    title.toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,
