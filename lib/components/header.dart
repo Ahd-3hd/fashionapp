@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fashionapp/screens/single.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
@@ -23,113 +24,120 @@ class _HeaderState extends State<Header> {
   }
 }
 
-class ItemCard extends StatelessWidget {
+class ItemCard extends StatefulWidget {
   final itemData;
 
   const ItemCard({Key key, this.itemData}) : super(key: key);
 
   @override
+  _ItemCardState createState() => _ItemCardState();
+}
+
+class _ItemCardState extends State<ItemCard> {
+  bool isLiked = false;
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Flexible(
-          child: Container(
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(itemData['imageurl']['en-US']),
-                fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Single(data: widget.itemData)),
+        );
+      },
+      child: Column(
+        children: [
+          Flexible(
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(widget.itemData['imageurl']['en-US']),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
-        Transform.translate(
-          offset: Offset(0, -30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.remove_red_eye,
-                            size: 20,
-                            color: const Color(0xff833895),
-                          ),
-                          Text(
-                            '32',
-                            style: TextStyle(
+          Transform.translate(
+            offset: Offset(0, -30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.remove_red_eye,
+                              size: 20,
                               color: const Color(0xff833895),
-                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                        ],
+                            Text(
+                              '32',
+                              style: TextStyle(
+                                color: const Color(0xff833895),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.favorite,
-                            size: 20,
-                            color: const Color(0xff833895),
-                          ),
-                          Text(
-                            '32',
-                            style: TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.favorite,
+                              size: 20,
                               color: const Color(0xff833895),
-                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                        ],
+                            Text(
+                              '32',
+                              style: TextStyle(
+                                color: const Color(0xff833895),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Icon(
-                      Icons.open_in_new,
+                Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isLiked = !isLiked;
+                      });
+                    },
+                    icon: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_border,
                       size: 20,
                       color: const Color(0xff833895),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        print('hi');
-                      },
-                      icon: Icon(
-                        Icons.favorite_border,
-                        size: 20,
-                        color: const Color(0xff833895),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
