@@ -16,6 +16,10 @@ class _StoreState extends State<Store> {
     return SafeArea(
       child: Scaffold(
           body: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 0,
+              ),
               color: Colors.red[100],
               child: Column(
                 children: <Widget>[
