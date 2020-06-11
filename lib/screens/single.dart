@@ -12,6 +12,8 @@ class Single extends StatefulWidget {
 class _SingleState extends State<Single> {
   bool isLiked = false;
   bool isLoading = false;
+  int likesCount = 0;
+  int viewsCount = 0;
   Future likePost(id) async {
     setState(() {
       isLoading = true;
@@ -24,6 +26,9 @@ class _SingleState extends State<Single> {
           })
         : null;
     setState(() {
+      likesCount += 1;
+    });
+    setState(() {
       isLiked = true;
     });
   }
@@ -31,6 +36,9 @@ class _SingleState extends State<Single> {
   Future viewPost(id) async {
     Response response =
         await put('https://shrouded-savannah-97463.herokuapp.com/view/$id');
+    setState(() {
+      viewsCount += 1;
+    });
   }
 
   Future unlikePost(id) async {
@@ -45,6 +53,9 @@ class _SingleState extends State<Single> {
           })
         : null;
     setState(() {
+      likesCount -= 1;
+    });
+    setState(() {
       isLiked = false;
     });
   }
@@ -53,6 +64,10 @@ class _SingleState extends State<Single> {
   void initState() {
     super.initState();
     viewPost(widget.data['id']['en-US']);
+    setState(() {
+      viewsCount = widget.data['views']['en-US'];
+      likesCount = widget.data['likes']['en-US'];
+    });
   }
 
   @override
@@ -112,7 +127,7 @@ class _SingleState extends State<Single> {
                                   color: const Color(0xff833895),
                                 ),
                                 Text(
-                                  widget.data['views']['en-US'].toString(),
+                                  viewsCount.toString(),
                                   style: TextStyle(
                                     color: const Color(0xff833895),
                                     fontWeight: FontWeight.bold,
@@ -131,7 +146,7 @@ class _SingleState extends State<Single> {
                                   color: const Color(0xff833895),
                                 ),
                                 Text(
-                                  widget.data['likes']['en-US'].toString(),
+                                  likesCount.toString(),
                                   style: TextStyle(
                                     color: const Color(0xff833895),
                                     fontWeight: FontWeight.bold,

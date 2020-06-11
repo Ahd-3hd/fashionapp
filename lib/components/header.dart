@@ -37,7 +37,8 @@ class ItemCard extends StatefulWidget {
 class _ItemCardState extends State<ItemCard> {
   bool isLiked = false;
   bool isLoading = false;
-
+  int likesCount = 0;
+  int viewsCount = 0;
   Future likePost(id) async {
     setState(() {
       isLoading = true;
@@ -49,6 +50,9 @@ class _ItemCardState extends State<ItemCard> {
             isLoading = false;
           })
         : null;
+    setState(() {
+      likesCount += 1;
+    });
     setState(() {
       isLiked = true;
     });
@@ -65,6 +69,9 @@ class _ItemCardState extends State<ItemCard> {
             isLoading = false;
           })
         : null;
+    setState(() {
+      likesCount -= 1;
+    });
     setState(() {
       isLiked = false;
     });
@@ -117,7 +124,7 @@ class _ItemCardState extends State<ItemCard> {
                               color: const Color(0xff833895),
                             ),
                             Text(
-                              widget.itemData['views']['en-US'].toString(),
+                              viewsCount.toString(),
                               style: TextStyle(
                                 color: const Color(0xff833895),
                                 fontWeight: FontWeight.bold,
@@ -136,7 +143,7 @@ class _ItemCardState extends State<ItemCard> {
                               color: const Color(0xff833895),
                             ),
                             Text(
-                              widget.itemData['likes']['en-US'].toString(),
+                              likesCount.toString(),
                               style: TextStyle(
                                 color: const Color(0xff833895),
                                 fontWeight: FontWeight.bold,
