@@ -1,3 +1,4 @@
+import 'package:fashionapp/screens/single.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -59,23 +60,32 @@ class _StoreState extends State<Store> {
                     child: StaggeredGridView.countBuilder(
                       crossAxisCount: 4,
                       itemCount: widget.data.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset:
-                                  Offset(0, 0), // changes position of shadow
+                      itemBuilder: (BuildContext context, int index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Single(data: widget.data[index])),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset:
+                                    Offset(0, 0), // changes position of shadow
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.data[index]['imageurl']['en-US']),
+                              fit: BoxFit.cover,
                             ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                widget.data[index]['imageurl']['en-US']),
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
