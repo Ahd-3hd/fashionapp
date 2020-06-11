@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Single extends StatefulWidget {
   final Map data;
@@ -10,6 +11,50 @@ class Single extends StatefulWidget {
 
 class _SingleState extends State<Single> {
   bool isLiked = false;
+  bool isLoading = false;
+  Future likePost(id) async {
+    setState(() {
+      isLoading = true;
+    });
+    Response response =
+        await put('https://shrouded-savannah-97463.herokuapp.com/like/$id');
+    response.body == 'done'
+        ? setState(() {
+            isLoading = false;
+          })
+        : null;
+    setState(() {
+      isLiked = true;
+    });
+  }
+
+  Future viewPost(id) async {
+    Response response =
+        await put('https://shrouded-savannah-97463.herokuapp.com/view/$id');
+  }
+
+  Future unlikePost(id) async {
+    setState(() {
+      isLoading = true;
+    });
+    Response response =
+        await put('https://shrouded-savannah-97463.herokuapp.com/unlike/$id');
+    response.body == 'done'
+        ? setState(() {
+            isLoading = false;
+          })
+        : null;
+    setState(() {
+      isLiked = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    viewPost(widget.data['id']['en-US']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,7 +112,7 @@ class _SingleState extends State<Single> {
                                   color: const Color(0xff833895),
                                 ),
                                 Text(
-                                  '32',
+                                  widget.data['views']['en-US'].toString(),
                                   style: TextStyle(
                                     color: const Color(0xff833895),
                                     fontWeight: FontWeight.bold,
@@ -86,7 +131,7 @@ class _SingleState extends State<Single> {
                                   color: const Color(0xff833895),
                                 ),
                                 Text(
-                                  '32',
+                                  widget.data['likes']['en-US'].toString(),
                                   style: TextStyle(
                                     color: const Color(0xff833895),
                                     fontWeight: FontWeight.bold,
@@ -154,12 +199,34 @@ class _SingleState extends State<Single> {
                               ],
                             ),
                             child: IconButton(
-                              icon: Icon(
-                                isLiked
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: Color(0xff833895),
-                              ),
+                              icon: isLoading
+                                  ? Container(
+                                      width: 25,
+                                      height: 25,
+                                      padding: EdgeInsets.all(5),
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          Colors.purple[900],
+                                        ),
+                                      ),
+                                    )
+                                  : IconButton(
+                                      onPressed: () async {
+                                        isLiked
+                                            ? await unlikePost(
+                                                widget.data['id']['en-US'])
+                                            : await likePost(
+                                                widget.data['id']['en-US']);
+                                      },
+                                      icon: Icon(
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        size: 20,
+                                        color: const Color(0xff833895),
+                                      ),
+                                    ),
                               onPressed: () {
                                 setState(() {
                                   isLiked = !isLiked;
